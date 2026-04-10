@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "InputActionValue.h"
 #include "Components/ActorComponent.h"
 #include "TDWTechnicalTest/Input/Data/TDWTestInputConfig.h"
 #include "CharacterInputHandler.generated.h"
@@ -29,13 +30,26 @@ protected:
 
 private:
 	/** */
-	void RegisterDefaultInputMappingContexts();
+	UFUNCTION()
+	void Input_Move(const FInputActionValue& InputActionValue);
+	
+private:
+	/** */
+	bool RegisterDefaultInputMappingContexts();
+	
+	/** */
+	void RegisterNativeActions(
+		const TObjectPtr<UInputComponent>& InputComponent);
 	
 protected:
 	/** */
 	UPROPERTY(EditAnywhere)
 	TArray<FInputMappingContextData> CharacterDefaultInputMappings;
 
+	/** */
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<UTDWTestInputConfig> CharacterInputConfig;
+	
 private:
 	/** */
 	UPROPERTY()

@@ -5,6 +5,8 @@
 #include "TDWTechnicalTest/TWDTechnicalTestLogging.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputMappingContext.h"
+#include "TDWTechnicalTest/TDWTestTags.h"
+#include "TDWTechnicalTest/Input/TDWTestInputComponent.h"
 
 UCharacterInputHandler::UCharacterInputHandler()
 {
@@ -14,7 +16,11 @@ UCharacterInputHandler::UCharacterInputHandler()
 void UCharacterInputHandler::BeginPlay()
 {
 	Super::BeginPlay();
+}
 
+void UCharacterInputHandler::InitializePlayerInput(
+	TObjectPtr<UInputComponent> InputComponent)
+{
 	OwnerPawn = Cast<APawn>(GetOwner());
 	if (!OwnerPawn)
 	{
@@ -26,23 +32,27 @@ void UCharacterInputHandler::BeginPlay()
 	// Get the owner's player controller, so we can add IMCs
 	OwnerPlayerController = OwnerPawn->GetController<APlayerController>();
 	check(OwnerPlayerController);
-}
-
-void UCharacterInputHandler::InitializePlayerInput(
-	TObjectPtr<UInputComponent> InputComponent)
-{
-	TDWTestLog_INFO(TEXT("Initializing character [%s] input."),
-		*GetOwner()->GetName());
-
+	
 	// Register all the default IMCs
-	RegisterDefaultInputMappingContexts();
+	if (!RegisterDefaultInputMappingContexts())
+	{
+		return;
+	}
+
+	// Register all native actions
+	RegisterNativeActions(InputComponent);
+	
+	TDWTestLog_INFO(TEXT("Character [%s] input initialized."),
+		*GetOwner()->GetName());
 }
 
-void UCharacterInputHandler::RegisterDefaultInputMappingContexts()
+bool UCharacterInputHandler::RegisterDefaultInputMappingContexts()
 {
 	if(!OwnerPlayerController)
 	{
-		return;
+		TDWTestLog_ERROR(TEXT("Can't register IMC with invalid player "
+			"controller from [%s]."), *GetOwner()->GetName());
+		return false;
 	}
 	
 	const auto LocalPlayer = OwnerPlayerController->GetLocalPlayer();
@@ -58,4 +68,49 @@ void UCharacterInputHandler::RegisterDefaultInputMappingContexts()
 		EnhancedInputSubsystem->AddMappingContext(
 			IMCData.InputMapping.LoadSynchronous(), IMCData.Priority);
 	}
+	
+	return true;
+}
+
+void UCharacterInputHandler::RegisterNativeActions(
+	const TObjectPtr<UInputComponent>& InputComponent)
+{
+	if (!CharacterInputConfig)
+	{
+		return;
+	}
+	
+	// Get the input component, so we can bind the native actions
+	const auto EnhancedInputComponent = Cast<UTDWTestInputComponent>(
+		InputComponent);
+	check(EnhancedInputComponent);
+
+	// Bind the move action
+	EnhancedInputComponent->BindNativeAction(CharacterInputConfig,
+		TDWTestGameplayTags::InputTag_Move, ETriggerEvent::Triggered,
+		this, &UCharacterInputHandler::Input_Move, true);
+}
+
+void UCharacterInputHandler::Input_Move(
+	const FInputActionValue& InputActionValue)
+{
+	check(OwnerPawn);
+
+	// Get the input value
+	const FVector2D Value = InputActionValue.Get<FVector2D>();
+	if (Value.IsNearlyZero())
+	{
+		return;
+	}
+
+	// Calculate movement direction
+	const FRotator ControlRotation = OwnerPawn->GetControlRotation();
+	const FRotator YawRotation(0.f, ControlRotation.Yaw, 0.f);
+
+	const FVector Forward = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+	const FVector Right = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+
+	// Add movement
+	OwnerPawn->AddMovementInput(Forward, Value.Y);
+	OwnerPawn->AddMovementInput(Right, Value.X);
 }
