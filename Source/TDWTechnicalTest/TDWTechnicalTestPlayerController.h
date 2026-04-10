@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Copyright Saulo Soares. All rights reserved.
 
 #pragma once
 
@@ -16,6 +16,21 @@ public:
 	/** Default constructor */
 	ATDWTechnicalTestPlayerController();
 
+public:
+	/** */
+	UFUNCTION(BlueprintCallable)
+	class ATDWTestPlayerState* GetTDWTestPlayerState() const;
+
+	/** */
+	UFUNCTION(BlueprintCallable)
+	class UTDWTestAbilitySystemComponent* GetTDWTestAbilitySystemComponent()
+		const;
+
+public:
+	/** */
+	virtual void PostProcessInput(const float DeltaTime,
+		const bool bGamePaused) override;
+	
 protected:
 	
 	virtual void SetupInputComponent() override;
