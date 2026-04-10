@@ -30,9 +30,16 @@ public:
 	/** Sets default values for this character's properties */
 	ATDWTestPlayerState();
 
+	/** */
+	void SetPawnData(const TObjectPtr<class UPawnData>& PawnData);
+
 private:
 	/** */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,
 		meta=(AllowPrivateAccess="true"))
 	TObjectPtr<class UTDWTestAbilitySystemComponent> AbilitySystemComponent;
+
+	/** */
+	UPROPERTY()
+	TObjectPtr<class UPawnData> CurrentPawnData;
 };

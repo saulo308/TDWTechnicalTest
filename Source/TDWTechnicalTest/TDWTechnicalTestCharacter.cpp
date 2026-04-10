@@ -79,6 +79,16 @@ void ATDWTechnicalTestCharacter::PossessedBy(AController* NewController)
 	// Init the ASC on server, as we can get the player state safely after
 	// possession
 	InitAbilitySystemComponent();
+
+	// Set pawn data on player state, so it can give the player's AbilitySets.
+	// This is safe to do here, as now the ASC is initialized
+	if (const auto LoadedPawnData = DefaultPawnData.LoadSynchronous())
+	{
+		const auto TDWTestPlayerState = Cast<ATDWTestPlayerState>(
+			GetPlayerState());
+		check(TDWTestPlayerState);
+		TDWTestPlayerState->SetPawnData(LoadedPawnData);
+	}
 }
 
 void ATDWTechnicalTestCharacter::InitAbilitySystemComponent()
