@@ -67,6 +67,7 @@ private:
 	class USpringArmComponent* CameraBoom = nullptr;
 
 	/** */
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly,
+		meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<class UCharacterInputHandler> InputHandler;
 };
