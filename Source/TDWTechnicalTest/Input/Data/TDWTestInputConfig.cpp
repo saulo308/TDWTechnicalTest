@@ -17,7 +17,7 @@ const UInputAction* UTDWTestInputConfig::FindNativeInputActionByTag(
 
 	if (bLogNotFound)
 	{
-		TWDLog_ERROR(TEXT("Can't find NativeInputAction for InputTag "
+		TDWTestLog_ERROR(TEXT("Can't find NativeInputAction for InputTag "
 			"[%s] on InputConfig [%s]."), *InputTag.ToString(), 
 			*GetNameSafe(this));
 	}
