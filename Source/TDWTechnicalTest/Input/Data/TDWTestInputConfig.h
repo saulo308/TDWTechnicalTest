@@ -10,7 +10,7 @@
 /**
 * 
 */
-USTRUCT()
+USTRUCT(BlueprintType)
 struct FInputMappingContextData
 {
 	GENERATED_BODY()
