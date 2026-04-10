@@ -13,6 +13,10 @@ class TDWTECHNICALTEST_API UPawnData : public UPrimaryDataAsset
 	GENERATED_BODY()
 
 public:
+	/** Ability sets to grant to this pawn's ability system. */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Abilities")
+	TArray<TObjectPtr<class UAbilitySet>> AbilitySets;
+	
 	/** */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
 	TArray<FInputMappingContextData> DefaultInputMappings;
