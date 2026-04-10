@@ -31,7 +31,13 @@ void FAbilitySet_GrantedHandles::AddAttributeSet(UAttributeSet* Set)
 void FAbilitySet_GrantedHandles::TakeFromAbilitySystem(
 	UAbilitySystemComponent* TargetASC)
 {
-	check(TargetASC);
+	if(!TargetASC)
+	{
+		TDWTestLog_ERROR(TEXT("Can't take ability set to invalid ASC."));
+		return;	
+	}
+
+	// The game is singleplayer, but just to be safe here...
 	if (!TargetASC->IsOwnerActorAuthoritative())
 	{
 		TDWTestLog_ERROR(TEXT("AbilitySets must only be removed from "
@@ -69,7 +75,13 @@ void UAbilitySet::GiveToAbilitySystem(
 	UAbilitySystemComponent* TargetASC,
 	FAbilitySet_GrantedHandles* OutGrantedHandles, UObject* SourceObject) const
 {
-	check(TargetASC);
+	if(!TargetASC)
+	{
+		TDWTestLog_ERROR(TEXT("Can't give ability set to invalid ASC."));
+		return;	
+	}
+	
+	// The game is singleplayer, but just to be safe here...
 	if (!TargetASC->IsOwnerActorAuthoritative())
 	{
 		TDWTestLog_ERROR(TEXT("AbilitySets must only be granted from "
