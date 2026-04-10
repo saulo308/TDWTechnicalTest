@@ -34,6 +34,14 @@ private:
 	UFUNCTION()
 	void Input_Move(const FInputActionValue& InputActionValue);
 	
+	/** */
+	UFUNCTION()
+	void Input_AbilityInputTagPressed(FGameplayTag InputTag);
+
+	/** */
+	UFUNCTION()
+	void Input_AbilityInputTagReleased(FGameplayTag InputTag);
+	
 private:
 	/** */
 	bool RegisterDefaultInputMappingContexts(
@@ -44,6 +52,11 @@ private:
 		const TObjectPtr<UInputComponent>& InputComponent,
 		const TObjectPtr<class UTDWTestInputConfig>& InputConfig);
 	
+	/** */
+	void RegisterAbilityActions(
+		const TObjectPtr<UInputComponent>& InputComponent,
+		const TObjectPtr<class UTDWTestInputConfig>& InputConfig);
+
 private:
 	/** */
 	UPROPERTY()

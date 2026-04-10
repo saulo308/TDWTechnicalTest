@@ -2,11 +2,14 @@
 
 
 #include "CharacterInputHandler.h"
+
+#include "AbilitySystemInterface.h"
 #include "TDWTechnicalTest/TWDTechnicalTestLogging.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputMappingContext.h"
 #include "Data/PawnData.h"
 #include "TDWTechnicalTest/TDWTestTags.h"
+#include "TDWTechnicalTest/AbilitySystem/TDWTestAbilitySystemComponent.h"
 #include "TDWTechnicalTest/Input/TDWTestInputComponent.h"
 
 UCharacterInputHandler::UCharacterInputHandler()
@@ -46,6 +49,9 @@ void UCharacterInputHandler::InitializePlayerInput(
 
 	// Register all native actions
 	RegisterNativeActions(InputComponent, PawnData->InputConfig);
+
+	// Register all ability actions
+	RegisterAbilityActions(InputComponent, PawnData->InputConfig);
 	
 	TDWTestLog_INFO(TEXT("Character [%s] input initialized."),
 		*GetOwner()->GetName());
@@ -100,6 +106,21 @@ void UCharacterInputHandler::RegisterNativeActions(
 		this, &UCharacterInputHandler::Input_Move, true);
 }
 
+void UCharacterInputHandler::RegisterAbilityActions(
+	const TObjectPtr<UInputComponent>& InputComponent,
+	const TObjectPtr<class UTDWTestInputConfig>& InputConfig)
+{
+	// Get the input component, so we can bind the ability actions
+	const auto EnhancedInputComponent = Cast<UTDWTestInputComponent>(
+		InputComponent);
+	check(EnhancedInputComponent);
+	
+	TArray<uint32> BindHandles;
+	EnhancedInputComponent->BindAbilityActions(InputConfig, this,
+		&ThisClass::Input_AbilityInputTagPressed,
+		&ThisClass::Input_AbilityInputTagReleased, /*out*/BindHandles);
+}
+
 void UCharacterInputHandler::Input_Move(
 	const FInputActionValue& InputActionValue)
 {
@@ -122,4 +143,47 @@ void UCharacterInputHandler::Input_Move(
 	// Add movement
 	OwnerPawn->AddMovementInput(Forward, Value.Y);
 	OwnerPawn->AddMovementInput(Right, Value.X);
+}
+
+void UCharacterInputHandler::Input_AbilityInputTagPressed(FGameplayTag InputTag)
+{
+	// Get the owner's ASC, so we can activate ability through tag
+	check(OwnerPawn);
+	const auto OwnerASCInterface = Cast<IAbilitySystemInterface>(OwnerPawn);
+	if (!OwnerASCInterface)
+	{
+		TDWTestLog_ERROR(TEXT("Couldn't find ASC interface on character "
+			"[%s]. Needed to activate ability through tags."),
+			*OwnerPawn->GetName());
+		return;
+	}
+	
+	const auto OwnerASC = Cast<UTDWTestAbilitySystemComponent>(
+		OwnerASCInterface->GetAbilitySystemComponent());
+	check(OwnerASC);
+
+	// Notify ASC that an ability input tag has been pressed
+	OwnerASC->AbilityInputTagPressed(InputTag);
+}
+
+void UCharacterInputHandler::Input_AbilityInputTagReleased(
+	FGameplayTag InputTag)
+{
+	// Get the owner's ASC, so we can deactivate ability through tag
+	check(OwnerPawn);
+	const auto OwnerASCInterface = Cast<IAbilitySystemInterface>(OwnerPawn);
+	if (!OwnerASCInterface)
+	{
+		TDWTestLog_ERROR(TEXT("Couldn't find ASC interface on character "
+			"[%s]. Needed to deactivate ability through tags."),
+			*OwnerPawn->GetName());
+		return;
+	}
+	
+	const auto OwnerASC = Cast<UTDWTestAbilitySystemComponent>(
+		OwnerASCInterface->GetAbilitySystemComponent());
+	check(OwnerASC);
+
+	// Notify ASC that an ability input tag has been released
+	OwnerASC->AbilityInputTagReleased(InputTag);
 }
