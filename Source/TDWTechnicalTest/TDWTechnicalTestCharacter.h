@@ -3,12 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AbilitySystemInterface.h"
 #include "Character/CharacterInputHandler.h"
 #include "GameFramework/Character.h"
 #include "TDWTechnicalTestCharacter.generated.h"
 
 UCLASS(Blueprintable)
-class ATDWTechnicalTestCharacter : public ACharacter
+class ATDWTechnicalTestCharacter : public ACharacter,
+	public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -27,11 +29,32 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const
 		{ return CameraBoom; }
 
+	/**
+	* Called once the Character is possessed on the server. Will initialize
+	* the ASC on the server.
+	*/
+	virtual void PossessedBy(AController* NewController) override;
+	
+	/** */
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	
 protected:
 	/** */
 	virtual void SetupPlayerInputComponent(
 		UInputComponent* PlayerInputComponent) override;
 
+private:
+	/**
+	* Initializes the ASC. Will call "InitAbilityActorInfo" on it, passing the
+	* PlayerState as owner and the Character as the avatar.
+	*/
+	void InitAbilitySystemComponent();
+
+protected:
+	/** */
+	UPROPERTY(BlueprintReadOnly)
+	TObjectPtr<class UTDWTestAbilitySystemComponent> AbilitySystemComponent;
+	
 private:
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera,
@@ -47,13 +70,3 @@ private:
 	UPROPERTY()
 	TObjectPtr<class UCharacterInputHandler> InputHandler;
 };
-
-inline void ATDWTechnicalTestCharacter::SetupPlayerInputComponent(
-	UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-	// Initialize the input handler with the player input component
-	check(InputHandler);
-	InputHandler->InitializePlayerInput(PlayerInputComponent);
-}
