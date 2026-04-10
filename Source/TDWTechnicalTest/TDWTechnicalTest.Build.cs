@@ -18,7 +18,9 @@ public class TDWTechnicalTest : ModuleRules
 	        "AIModule", 
 	        "Niagara", 
 	        "EnhancedInput",
-	        "GameplayTags"
+	        "GameplayTags",
+	        "GameplayAbilities",
+	        "GameplayTasks"
         });
     }
 }
