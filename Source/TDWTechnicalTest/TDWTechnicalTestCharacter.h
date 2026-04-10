@@ -54,6 +54,11 @@ protected:
 	/** */
 	UPROPERTY(BlueprintReadOnly)
 	TObjectPtr<class UTDWTestAbilitySystemComponent> AbilitySystemComponent;
+
+	/** */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly,
+		Category="TDWTestCharacter|Input")
+	TSoftObjectPtr<class UPawnData> DefaultPawnData;
 	
 private:
 	/** Top down camera */

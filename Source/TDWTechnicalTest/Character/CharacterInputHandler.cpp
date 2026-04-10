@@ -5,6 +5,7 @@
 #include "TDWTechnicalTest/TWDTechnicalTestLogging.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputMappingContext.h"
+#include "Data/PawnData.h"
 #include "TDWTechnicalTest/TDWTestTags.h"
 #include "TDWTechnicalTest/Input/TDWTestInputComponent.h"
 
@@ -19,7 +20,8 @@ void UCharacterInputHandler::BeginPlay()
 }
 
 void UCharacterInputHandler::InitializePlayerInput(
-	TObjectPtr<UInputComponent> InputComponent)
+	const TObjectPtr<UInputComponent>& InputComponent,
+	const TObjectPtr<class UPawnData>& PawnData)
 {
 	OwnerPawn = Cast<APawn>(GetOwner());
 	if (!OwnerPawn)
@@ -29,25 +31,31 @@ void UCharacterInputHandler::InitializePlayerInput(
 		return;
 	}
 	
-	// Get the owner's player controller, so we can add IMCs
-	OwnerPlayerController = OwnerPawn->GetController<APlayerController>();
-	check(OwnerPlayerController);
+	if (!PawnData)
+	{
+		TDWTestLog_ERROR(TEXT("Can't initialize character [%s] input with "
+			"invalid pawn data."), *OwnerPawn->GetName());
+		return;	
+	}
 	
 	// Register all the default IMCs
-	if (!RegisterDefaultInputMappingContexts())
+	if (!RegisterDefaultInputMappingContexts(PawnData->DefaultInputMappings))
 	{
 		return;
 	}
 
 	// Register all native actions
-	RegisterNativeActions(InputComponent);
+	RegisterNativeActions(InputComponent, PawnData->InputConfig);
 	
 	TDWTestLog_INFO(TEXT("Character [%s] input initialized."),
 		*GetOwner()->GetName());
 }
 
-bool UCharacterInputHandler::RegisterDefaultInputMappingContexts()
+bool UCharacterInputHandler::RegisterDefaultInputMappingContexts(
+	TArray<FInputMappingContextData>& InputMappings)
 {
+	// Get the owner's player controller, so we can add IMCs
+	OwnerPlayerController = OwnerPawn->GetController<APlayerController>();
 	if(!OwnerPlayerController)
 	{
 		TDWTestLog_ERROR(TEXT("Can't register IMC with invalid player "
@@ -63,7 +71,7 @@ bool UCharacterInputHandler::RegisterDefaultInputMappingContexts()
 	check(EnhancedInputSubsystem);
 
 	// For each default IMC, register it to the subsystem
-	for (const auto& IMCData : CharacterDefaultInputMappings)
+	for (const auto& IMCData : InputMappings)
 	{
 		EnhancedInputSubsystem->AddMappingContext(
 			IMCData.InputMapping.LoadSynchronous(), IMCData.Priority);
@@ -73,9 +81,10 @@ bool UCharacterInputHandler::RegisterDefaultInputMappingContexts()
 }
 
 void UCharacterInputHandler::RegisterNativeActions(
-	const TObjectPtr<UInputComponent>& InputComponent)
+	const TObjectPtr<UInputComponent>& InputComponent,
+	const TObjectPtr<UTDWTestInputConfig>& InputConfig)
 {
-	if (!CharacterInputConfig)
+	if (!InputConfig)
 	{
 		return;
 	}
@@ -86,7 +95,7 @@ void UCharacterInputHandler::RegisterNativeActions(
 	check(EnhancedInputComponent);
 
 	// Bind the move action
-	EnhancedInputComponent->BindNativeAction(CharacterInputConfig,
+	EnhancedInputComponent->BindNativeAction(InputConfig,
 		TDWTestGameplayTags::InputTag_Move, ETriggerEvent::Triggered,
 		this, &UCharacterInputHandler::Input_Move, true);
 }

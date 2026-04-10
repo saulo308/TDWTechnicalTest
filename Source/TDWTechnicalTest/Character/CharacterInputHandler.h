@@ -22,7 +22,8 @@ public:
 
 	/** */
 	virtual void InitializePlayerInput(
-		TObjectPtr<class UInputComponent> InputComponent);
+		const TObjectPtr<class UInputComponent>& InputComponent,
+		const TObjectPtr<class UPawnData>& PawnData);
 
 protected:
 	/** Called when the game starts */
@@ -35,20 +36,13 @@ private:
 	
 private:
 	/** */
-	bool RegisterDefaultInputMappingContexts();
+	bool RegisterDefaultInputMappingContexts(
+		TArray<FInputMappingContextData>& InputMappings);
 	
 	/** */
 	void RegisterNativeActions(
-		const TObjectPtr<UInputComponent>& InputComponent);
-	
-protected:
-	/** */
-	UPROPERTY(EditAnywhere)
-	TArray<FInputMappingContextData> CharacterDefaultInputMappings;
-
-	/** */
-	UPROPERTY(EditAnywhere)
-	TObjectPtr<UTDWTestInputConfig> CharacterInputConfig;
+		const TObjectPtr<UInputComponent>& InputComponent,
+		const TObjectPtr<class UTDWTestInputConfig>& InputConfig);
 	
 private:
 	/** */
