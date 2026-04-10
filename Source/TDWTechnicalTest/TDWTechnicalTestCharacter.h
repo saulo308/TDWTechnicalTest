@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Character/CharacterInputHandler.h"
 #include "GameFramework/Character.h"
 #include "TDWTechnicalTestCharacter.generated.h"
 
@@ -26,6 +27,11 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const
 		{ return CameraBoom; }
 
+protected:
+	/** */
+	virtual void SetupPlayerInputComponent(
+		UInputComponent* PlayerInputComponent) override;
+
 private:
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera,
@@ -36,5 +42,18 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera,
 		meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom = nullptr;
+
+	/** */
+	UPROPERTY()
+	TObjectPtr<class UCharacterInputHandler> InputHandler;
 };
 
+inline void ATDWTechnicalTestCharacter::SetupPlayerInputComponent(
+	UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	// Initialize the input handler with the player input component
+	check(InputHandler);
+	InputHandler->InitializePlayerInput(PlayerInputComponent);
+}

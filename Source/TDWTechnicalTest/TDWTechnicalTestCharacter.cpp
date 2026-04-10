@@ -3,6 +3,7 @@
 #include "TDWTechnicalTestCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Camera/CameraComponent.h"
+#include "Character/CharacterInputHandler.h"
 #include "Components/DecalComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -13,6 +14,9 @@
 
 ATDWTechnicalTestCharacter::ATDWTechnicalTestCharacter()
 {
+	InputHandler = CreateDefaultSubobject<UCharacterInputHandler>(
+		TEXT("InputHandler"));
+	
 	// Set size for player capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
