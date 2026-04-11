@@ -57,7 +57,7 @@ protected:
 
 	/** */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly,
-		Category="TDWTestCharacter|Input")
+		Category="TDWTestCharacter|PawnData")
 	TSoftObjectPtr<class UPawnData> DefaultPawnData;
 	
 private:
