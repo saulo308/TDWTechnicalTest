@@ -11,18 +11,10 @@ class UDamageExecution : public UGameplayEffectExecutionCalculation
 {
 	GENERATED_BODY()
 
-public:
-	/** */
-	UDamageExecution();
-
 protected:
 	/** */
 	virtual void Execute_Implementation(
 		const FGameplayEffectCustomExecutionParameters& ExecutionParams,
 		FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
 		override;
-	
-private:
-	/** */
-	FGameplayEffectAttributeCaptureDefinition BaseDamageDef;
 };

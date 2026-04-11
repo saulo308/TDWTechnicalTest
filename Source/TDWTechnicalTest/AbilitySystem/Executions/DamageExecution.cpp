@@ -1,43 +1,42 @@
 // Copyright Saulo Soares. All rights reserved.
 
 #include "DamageExecution.h"
-#include "TDWTechnicalTest/AbilitySystem/Attributes/CombatSet.h"
+#include "TDWTechnicalTest/AbilitySystem/TDWTestGameplayAbility.h"
+#include "TDWTechnicalTest/AbilitySystem/AbilityData/AbilityDataBase.h"
 #include "TDWTechnicalTest/AbilitySystem/Attributes/VitalsSet.h"
-
-UDamageExecution::UDamageExecution()
-{
-	BaseDamageDef.AttributeToCapture = UCombatSet::GetBaseDamageAttribute();
-	BaseDamageDef.AttributeSource = EGameplayEffectAttributeCaptureSource::Source;
-	BaseDamageDef.bSnapshot = true;
-
-	RelevantAttributesToCapture.Add(BaseDamageDef);
-}
 
 void UDamageExecution::Execute_Implementation(
 	const FGameplayEffectCustomExecutionParameters& ExecutionParams,
 	FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
 {
+	// Get the ability context from the spec
 	const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
-	const auto* SourceTags = Spec.CapturedSourceTags.GetAggregatedTags();
-	const auto* TargetTags = Spec.CapturedTargetTags.GetAggregatedTags();
-
-	FAggregatorEvaluateParameters EvaluateParameters;
-	EvaluateParameters.SourceTags = SourceTags;
-	EvaluateParameters.TargetTags = TargetTags;
-
-	float BaseDamage = 0.0f;
-	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(
-		BaseDamageDef, EvaluateParameters, BaseDamage);
-	
-	const float DamageDone = FMath::Max(BaseDamage, 0.0f);
-	if (DamageDone == 0.0f)
+	const auto* Ability = Cast<UTDWTestGameplayAbility>(
+		Spec.GetContext().GetAbilityInstance_NotReplicated());
+	if (!Ability)
 	{
 		return;
 	}
+
+	// Try to find the ability data, so we can access the ability's damage
+	const auto* AbilityData = Ability->GetAbilityData();
+	if (!AbilityData)
+	{
+		return;
+	}
+
+	// Set the damage to be applied
+	const float Damage = AbilityData->Damage.GetValueAtLevel(
+		Ability->GetAbilityLevel());
 	
-	// Apply a damage modifier, this gets turned into "-health" on the target
-	// on "UVitalsSet"
-	FGameplayModifierEvaluatedData ModifierData(
+	const float DamageDone = FMath::Max(Damage, 0.0f);
+	if (DamageDone <= 0.f)
+	{
+		return;
+	}
+
+	// Output damage
+	const FGameplayModifierEvaluatedData ModifierData(
 		UVitalsSet::GetDamageAttribute(), EGameplayModOp::Additive, DamageDone);
 	OutExecutionOutput.AddOutputModifier(ModifierData);
 }
