@@ -8,6 +8,21 @@
 #include "GameplayTagContainer.h"
 #include "AbilityDataBase.generated.h"
 
+/** */
+USTRUCT(BlueprintType)
+struct FDamageCoefficientRange
+{
+	GENERATED_BODY()
+
+	/** */
+	UPROPERTY(EditDefaultsOnly)
+	FScalableFloat MinMultiplier = FScalableFloat();
+
+	/** */
+	UPROPERTY(EditDefaultsOnly)
+	FScalableFloat MaxMultiplier = FScalableFloat();
+};
+
 /**
  * 
  */
@@ -19,7 +34,7 @@ class TDWTECHNICALTEST_API UAbilityDataBase : public UPrimaryDataAsset
 public:
 	/** */
 	UPROPERTY(EditDefaultsOnly, Category="Base|Stats")
-	FScalableFloat Damage = FScalableFloat();
+	FDamageCoefficientRange DamageMultiplier = FDamageCoefficientRange();
 	
 	/** */
 	UPROPERTY(EditDefaultsOnly, Category="Base|Stats")
