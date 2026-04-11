@@ -76,8 +76,6 @@ void ATDWTechnicalTestCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 	
-	// Init the ASC on server, as we can get the player state safely after
-	// possession
 	InitAbilitySystemComponent();
 
 	// Set pawn data on player state, so it can give the player's AbilitySets.
