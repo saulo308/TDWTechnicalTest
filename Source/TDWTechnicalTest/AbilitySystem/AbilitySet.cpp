@@ -120,6 +120,28 @@ void UAbilitySet::GiveToAbilitySystem(
 		}
 	}
 
+	// Grant the attribute sets from the ability set.
+	for (int32 SetIndex = 0; SetIndex < GrantedAttributes.Num(); ++SetIndex)
+	{
+		const auto& SetToGrant = GrantedAttributes[SetIndex];
+		if (!IsValid(SetToGrant.AttributeSet))
+		{
+			TDWTestLog_ERROR(TEXT("GrantedAttributes[%d] on ability set "
+				"[%s] is not valid"), SetIndex, *GetNameSafe(this));
+			continue;
+		}
+
+		// Add the attribute set
+		auto* NewSet = NewObject<UAttributeSet>(TargetASC->GetOwner(),
+			SetToGrant.AttributeSet);
+		TargetASC->AddAttributeSetSubobject(NewSet);
+
+		if (OutGrantedHandles)
+		{
+			OutGrantedHandles->AddAttributeSet(NewSet);
+		}
+	}
+
 	// Grant the gameplay effects from ability set.
 	for (int32 EffectIndex = 0; EffectIndex < GrantedGameplayEffects.Num();
 		++EffectIndex)
@@ -142,28 +164,6 @@ void UAbilitySet::GiveToAbilitySystem(
 		if (OutGrantedHandles)
 		{
 			OutGrantedHandles->AddGameplayEffectHandle(GameplayEffectHandle);
-		}
-	}
-
-	// Grant the attribute sets from the ability set.
-	for (int32 SetIndex = 0; SetIndex < GrantedAttributes.Num(); ++SetIndex)
-	{
-		const auto& SetToGrant = GrantedAttributes[SetIndex];
-		if (!IsValid(SetToGrant.AttributeSet))
-		{
-			TDWTestLog_ERROR(TEXT("GrantedAttributes[%d] on ability set "
-				"[%s] is not valid"), SetIndex, *GetNameSafe(this));
-			continue;
-		}
-
-		// Add the attribute set
-		auto* NewSet = NewObject<UAttributeSet>(TargetASC->GetOwner(),
-			SetToGrant.AttributeSet);
-		TargetASC->AddAttributeSetSubobject(NewSet);
-
-		if (OutGrantedHandles)
-		{
-			OutGrantedHandles->AddAttributeSet(NewSet);
 		}
 	}
 }
