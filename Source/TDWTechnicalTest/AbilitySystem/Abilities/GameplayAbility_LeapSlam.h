@@ -14,5 +14,18 @@ class TDWTECHNICALTEST_API UGameplayAbility_LeapSlam :
 	public UTDWTestGameplayAbility
 {
 	GENERATED_BODY()
+
+public:
+	/** */
+	UFUNCTION(BlueprintCallable)
+	void StartTargeting(bool bDebugTraces);
+
+	/** */
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnTargetDataReady(const FGameplayAbilityTargetDataHandle& TargetData);
 	
+private:
+	/** */
+	FGameplayAbilityTargetDataHandle BuildTargetDataFromActors(
+		const TArray<AActor*>& Actors);
 };
