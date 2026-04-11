@@ -16,6 +16,13 @@ class TDWTECHNICALTEST_API UVitalsSet : public UAttributeSetBase
 
 protected:
 	/** */
+	//virtual bool PreGameplayEffectExecute(FGameplayEffectModCallbackData& Data) override;
+	
+	/** */
+	virtual void PostGameplayEffectExecute(
+		const FGameplayEffectModCallbackData& Data) override;
+
+	/** */
 	virtual void PreAttributeBaseChange(const FGameplayAttribute& Attribute,
 		float& NewValue) const override;
 	
@@ -34,6 +41,7 @@ public:
 	ATTRIBUTE_ACCESSORS(UVitalsSet, MaxHealth);
 	ATTRIBUTE_ACCESSORS(UVitalsSet, Mana);
 	ATTRIBUTE_ACCESSORS(UVitalsSet, MaxMana);
+	ATTRIBUTE_ACCESSORS(UVitalsSet, Damage);
 	
 private:
 	/** */
@@ -57,4 +65,13 @@ private:
 	UPROPERTY(BlueprintReadOnly, Category = "TDWTest|Vitals",
 		Meta=(AllowPrivateAccess = true))
 	FGameplayAttributeData MaxMana;
+	
+	// -------------------------------------------------------------------
+	//	Meta Attributes
+	// -------------------------------------------------------------------
+
+	// Incoming damage. This is mapped directly to -Health
+	UPROPERTY(BlueprintReadOnly, Category="TDWTest|Vitals",
+		Meta=(HideFromModifiers, AllowPrivateAccess=true))
+	FGameplayAttributeData Damage;
 };

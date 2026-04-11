@@ -1,6 +1,21 @@
 // Copyright Saulo Soares. All rights reserved.
 
 #include "VitalsSet.h"
+#include "GameplayEffectExtension.h"
+#include "TDWTechnicalTest/TWDTechnicalTestLogging.h"
+
+void UVitalsSet::PostGameplayEffectExecute(
+	const FGameplayEffectModCallbackData& Data)
+{
+	Super::PostGameplayEffectExecute(Data);
+
+	if (Data.EvaluatedData.Attribute == GetDamageAttribute())
+	{
+		// Convert into "-Health" and then clamp
+		SetHealth(FMath::Clamp(GetHealth() - GetDamage(), 0.f, GetMaxHealth()));
+		SetDamage(0.0f);
+	}
+}
 
 void UVitalsSet::PreAttributeBaseChange(const FGameplayAttribute& Attribute,
 	float& NewValue) const
