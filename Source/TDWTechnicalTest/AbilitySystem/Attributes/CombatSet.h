@@ -31,10 +31,16 @@ private:
 public:
 	/** */
 	ATTRIBUTE_ACCESSORS(UCombatSet, AttackSpeed);
+	ATTRIBUTE_ACCESSORS(UCombatSet, BaseDamage);
 
 private:
 	/** */
 	UPROPERTY(BlueprintReadOnly, Category = "TDWTest|Combat",
 		Meta=(AllowPrivateAccess = true))
 	FGameplayAttributeData AttackSpeed;
+	
+	/** */
+	UPROPERTY(BlueprintReadOnly, Category = "TDWTest|Combat",
+		Meta=(AllowPrivateAccess = true))
+	FGameplayAttributeData BaseDamage;
 };
