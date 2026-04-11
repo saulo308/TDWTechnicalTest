@@ -14,6 +14,20 @@ class TDWTECHNICALTEST_API UVitalsSet : public UAttributeSetBase
 {
 	GENERATED_BODY()
 
+protected:
+	/** */
+	virtual void PreAttributeBaseChange(const FGameplayAttribute& Attribute,
+		float& NewValue) const override;
+	
+	/** */
+	virtual void PreAttributeChange(const FGameplayAttribute& Attribute,
+		float& NewValue) override;
+
+private:
+	/** */
+	void ClampAttribute(const FGameplayAttribute& Attribute, float& NewValue)
+		const;
+	
 public:
 	/** */
 	ATTRIBUTE_ACCESSORS(UVitalsSet, Health);
