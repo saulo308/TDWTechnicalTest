@@ -20,7 +20,8 @@ public class TDWTechnicalTest : ModuleRules
 	        "EnhancedInput",
 	        "GameplayTags",
 	        "GameplayAbilities",
-	        "GameplayTasks"
+	        "GameplayTasks",
+	        "ModelViewViewModel"
         });
     }
 }
