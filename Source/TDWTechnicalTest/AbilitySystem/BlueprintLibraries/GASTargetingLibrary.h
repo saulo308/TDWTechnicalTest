@@ -37,7 +37,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category="GASTargeting")
 	static void GetActorsInRadius(UWorld* World, const FVector& Origin,
 		float Radius, const TArray<TEnumAsByte<ECollisionChannel>>& ObjectTypes,
-		TArray<AActor*>& OutActors, AActor* IgnoreActor = nullptr);
+		bool bDebugTrace, TArray<AActor*>& OutActors,
+		AActor* IgnoreActor = nullptr);
 	
 	/** */
 	UFUNCTION(BlueprintCallable, Category="GASTargeting")

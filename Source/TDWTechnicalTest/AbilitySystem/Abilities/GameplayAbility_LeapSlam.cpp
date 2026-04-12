@@ -5,29 +5,23 @@
 #include "TDWTechnicalTest/TWDTechnicalTestLogging.h"
 #include "TDWTechnicalTest/AbilitySystem/BlueprintLibraries/GASTargetingLibrary.h"
 
-void UGameplayAbility_LeapSlam::StartTargeting(bool bDebugTraces)
+void UGameplayAbility_LeapSlam::StartTargeting(float AoERadius,
+	bool bDebugTrace)
 {
-	// 1. Get actors in range
-	TArray<AActor*> Targets;
-
-	const FVector ImpactLocation =
+	const FVector TargetingLocation =
 		GetAvatarActorFromActorInfo()->GetActorLocation();
-	
+
+	// Get all actors in range of ability 
+	TArray<AActor*> Targets;
 	TArray<TEnumAsByte<ECollisionChannel>> Channels;
 	Channels.Add(ECC_Pawn);
-	UGASTargetingLibrary::GetActorsInRadius(GetWorld(), ImpactLocation,
-		500.f, Channels, Targets, GetAvatarActorFromActorInfo());
+	UGASTargetingLibrary::GetActorsInRadius(GetWorld(), TargetingLocation,
+		AoERadius, Channels, bDebugTrace, Targets, GetAvatarActorFromActorInfo());
 
-	TDWTestLog_ERROR(TEXT("Actors found: %d"), Targets.Num());
-	for (const auto& Target : Targets)
-	{
-		TDWTestLog_ERROR(TEXT("\t%s"), *Target->GetName());
-	}
-
-	// 2. Build target data
+	// Build target data from found actors (if any)
 	const auto TargetData = BuildTargetDataFromActors(Targets);
 
-	// 3. Call
+	// Broadcast that the target data is ready and can be processed in BP
 	OnTargetDataReady(TargetData);
 }
 

@@ -13,30 +13,37 @@
 void UGASTargetingLibrary::GetActorsInRadius(UWorld* World,
 	const FVector& Origin, float Radius,
 	const TArray<TEnumAsByte<ECollisionChannel>>& ObjectTypes,
-	TArray<AActor*>& OutActors, AActor* IgnoreActor)
+	bool bDebugTrace, TArray<AActor*>& OutActors, AActor* IgnoreActor/*=nullptr*/)
 {
 	if (!World)
 	{
 		return;
 	}
 
+	// Make sphere for sphere overlap
 	TArray<FOverlapResult> Overlaps;
 	FCollisionShape Sphere = FCollisionShape::MakeSphere(Radius);
 
 	FCollisionQueryParams Params;
 	Params.AddIgnoredActor(IgnoreActor);
-	
+
+	// Add collision channels to overlap
 	FCollisionObjectQueryParams ObjectQuery;
 	for (ECollisionChannel Channel : ObjectTypes)
 	{
 		ObjectQuery.AddObjectTypesToQuery(Channel);
 	}
+
+	if (bDebugTrace)
+	{
+		DrawDebugSphere(World, Origin, Radius, 32, FColor::Green, false, 2.0f);
+	}
 	
+	// Find actors in range
 	World->OverlapMultiByObjectType(Overlaps, Origin, FQuat::Identity,
 		ObjectQuery, Sphere,Params);
-	
-	DrawDebugSphere(World, Origin, Radius, 32, FColor::Green, false, 2.0f);
 
+	// Add to return
 	for (const auto& Result : Overlaps)
 	{
 		if (auto* Actor = Result.GetActor())

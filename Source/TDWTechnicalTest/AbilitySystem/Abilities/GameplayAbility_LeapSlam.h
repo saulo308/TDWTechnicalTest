@@ -18,7 +18,7 @@ class TDWTECHNICALTEST_API UGameplayAbility_LeapSlam :
 public:
 	/** */
 	UFUNCTION(BlueprintCallable)
-	void StartTargeting(bool bDebugTraces);
+	void StartTargeting(float AoERadius, bool bDebugTrace);
 
 	/** */
 	UFUNCTION(BlueprintImplementableEvent)
