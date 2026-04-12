@@ -69,8 +69,6 @@ void UDamageExecution::Execute_Implementation(
 		return;
 	}
 
-	TDWTestLog_ERROR(TEXT("%f"), DamageDone);
-	
 	// Apply the damage modifier, this gets turned into "-health" on the target
 	// on "UVitalsSet"
 	FGameplayModifierEvaluatedData ModifierData(
