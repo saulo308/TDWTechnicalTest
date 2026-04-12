@@ -4,14 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
-#include "GameFramework/Character.h"
+#include "TDWTechnicalTestCharacterBase.h"
 #include "EnemyCharacter.generated.h"
 
 /**
 * 
 */
 UCLASS()
-class TDWTECHNICALTEST_API AEnemyCharacter : public ACharacter,
+class TDWTECHNICALTEST_API AEnemyCharacter : public ATDWTechnicalTestCharacterBase,
 	public IAbilitySystemInterface
 {
 	GENERATED_BODY()

@@ -5,11 +5,11 @@
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
 #include "Character/CharacterInputHandler.h"
-#include "GameFramework/Character.h"
+#include "Character/TDWTechnicalTestCharacterBase.h"
 #include "TDWTechnicalTestCharacter.generated.h"
 
 UCLASS(Blueprintable)
-class ATDWTechnicalTestCharacter : public ACharacter,
+class ATDWTechnicalTestCharacter : public ATDWTechnicalTestCharacterBase,
 	public IAbilitySystemInterface
 {
 	GENERATED_BODY()

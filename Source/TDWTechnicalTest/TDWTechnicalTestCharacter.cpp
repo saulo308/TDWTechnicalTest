@@ -87,6 +87,8 @@ void ATDWTechnicalTestCharacter::PossessedBy(AController* NewController)
 		check(TDWTestPlayerState);
 		TDWTestPlayerState->SetPawnData(LoadedPawnData);
 	}
+
+	OnAbilitySystemComponentInitialized.Broadcast();
 }
 
 void ATDWTechnicalTestCharacter::InitAbilitySystemComponent()

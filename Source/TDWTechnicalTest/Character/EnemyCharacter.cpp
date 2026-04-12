@@ -35,6 +35,8 @@ void AEnemyCharacter::PossessedBy(AController* NewController)
 	{
 		SetPawnData(LoadedPawnData);
 	}
+
+	OnAbilitySystemComponentInitialized.Broadcast();
 }
 
 void AEnemyCharacter::InitAbilitySystemComponent()
