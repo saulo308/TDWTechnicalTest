@@ -6,6 +6,23 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "GASTargetingLibrary.generated.h"
 
+/** */
+USTRUCT(BlueprintType)
+struct FLeapTargetResult
+{
+
+	GENERATED_BODY()
+
+public:
+	/** */
+	UPROPERTY(BlueprintReadOnly)
+	FVector Location = FVector();
+	
+	/** */
+	UPROPERTY(BlueprintReadOnly)
+	bool bIsValid = false;
+};
+
 /**
  * 
  */
@@ -21,4 +38,10 @@ public:
 	static void GetActorsInRadius(UWorld* World, const FVector& Origin,
 		float Radius, const TArray<TEnumAsByte<ECollisionChannel>>& ObjectTypes,
 		TArray<AActor*>& OutActors, AActor* IgnoreActor = nullptr);
+	
+	/** */
+	UFUNCTION(BlueprintCallable, Category="GASTargeting")
+	static FLeapTargetResult CalculateLeapTarget(UObject* WorldContextObject,
+		const APlayerController* PlayerController, const FVector& Origin,
+		float MaxDistance, float MaxHeight);
 };
