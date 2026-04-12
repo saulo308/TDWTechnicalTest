@@ -6,6 +6,7 @@
 #include "Abilities/Tasks/AbilityTask.h"
 #include "AbilityTask_LeapToTargetAndWait.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLeapApexReached);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLeapFinished);
 
 /**
@@ -29,7 +30,8 @@ public:
 		BlueprintInternalUseOnly = "true"))
 	static UAbilityTask_LeapToTargetAndWait* Leap(
 		UGameplayAbility* OwningAbility, FVector InTargetLocation,
-		class UCurveFloat* InHorizontalCurve, class UCurveFloat* InHeightCurve);
+		class UCurveFloat* InHorizontalCurve, class UCurveFloat* InHeightCurve,
+		float InMaxArcHeight = 400.f);
 
 public:
 	/** Tick function for this task, if bTickingTask == true */
@@ -51,6 +53,10 @@ protected:
 public:
 	/** */
 	UPROPERTY(BlueprintAssignable)
+	FLeapApexReached OnApexReached;
+	
+	/** */
+	UPROPERTY(BlueprintAssignable)
 	FLeapFinished OnLanded;
 	
 protected:
@@ -65,7 +71,16 @@ protected:
 	FVector TargetLocation = FVector();
 	
 	/** */
-	float MaxArcHeight = 400.f;
+	float MaxArcHeight = 0.f;
+
+private:
+	/** */
+	UPROPERTY()
+	TObjectPtr<ACharacter> Character;
+	
+	/** */
+	UPROPERTY()
+	TObjectPtr<UAbilitySystemComponent> OwnerASC;
 	
 private:
 	/** */
@@ -78,4 +93,6 @@ private:
 	float CurrentLeapProgress = 0.f;
 
 	float LeapDuration = 1.f;
+
+	bool bPassedApex = false;
 };
