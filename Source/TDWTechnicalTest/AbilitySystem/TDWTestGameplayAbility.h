@@ -38,6 +38,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	class UAbilityDataBase* GetAbilityData() const { return AbilityData; }
 
+	/** */
+	UFUNCTION(BlueprintCallable)
+	void ApplyRadialKnockbackToCharacters(ACharacter* Source,
+		const TArray<AActor*>& Targets, float PushRadius,
+		float KnockbackStrength, float UpwardRatio);
+	
 public:
 	/** Returns all tags that can put this ability into cooldown */
 	virtual const FGameplayTagContainer* GetCooldownTags() const override;

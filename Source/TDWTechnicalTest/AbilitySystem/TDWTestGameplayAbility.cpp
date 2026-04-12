@@ -2,8 +2,10 @@
 
 #include "TDWTestGameplayAbility.h"
 #include "AbilityData/AbilityDataBase.h"
+#include "GameFramework/Character.h"
 #include "TDWTechnicalTest/TDWTestTags.h"
 #include "TDWTechnicalTest/TWDTechnicalTestLogging.h"
+#include "TDWTechnicalTest/Combat/BlueprintLibraries/CombatStaticsLibrary.h"
 
 const FGameplayTagContainer* UTDWTestGameplayAbility::GetCooldownTags() const
 {
@@ -63,4 +65,36 @@ void UTDWTestGameplayAbility::ApplyCooldown(
 	// Apply the cooldown GE
 	ApplyGameplayEffectSpecToOwner(Handle, ActorInfo, ActivationInfo,
 		SpecHandle);
+}
+
+void UTDWTestGameplayAbility::ApplyRadialKnockbackToCharacters(
+	ACharacter* Source, const TArray<AActor*>& Targets, float PushRadius,
+	float KnockbackStrength, float UpwardRatio)
+{
+	if (!Source)
+	{
+		TDWTestLog_ERROR(TEXT("Can't apply radial knockback with invalid "
+			"source."));
+		return;	
+	}
+	
+	const auto SourceLocation = Source->GetActorLocation();
+	for (auto* Target : Targets)
+	{
+		if (!Target || !Cast<ACharacter>(Target))
+		{
+			continue;
+		}
+
+		// Check if the target is within knockback distance. If not, ignore
+		const float DistSq = FVector::DistSquared2D(Target->GetActorLocation(),
+			SourceLocation);
+		if (DistSq > PushRadius * PushRadius)
+		{
+			continue;
+		}
+
+		UCombatStaticsLibrary::ApplyRadialKnockback(Source,
+			Cast<ACharacter>(Target), KnockbackStrength, UpwardRatio);
+	}
 }
