@@ -31,7 +31,7 @@ public:
 	static UAbilityTask_LeapToTargetAndWait* Leap(
 		UGameplayAbility* OwningAbility, FVector InTargetLocation,
 		class UCurveFloat* InHorizontalCurve, class UCurveFloat* InHeightCurve,
-		float InMaxArcHeight = 400.f);
+		float InLeapDuration = 1.f,	float InMaxArcHeight = 400.f);
 
 public:
 	/** Tick function for this task, if bTickingTask == true */

@@ -18,7 +18,7 @@ UAbilityTask_LeapToTargetAndWait::UAbilityTask_LeapToTargetAndWait()
 UAbilityTask_LeapToTargetAndWait* UAbilityTask_LeapToTargetAndWait::Leap(
 	UGameplayAbility* OwningAbility, FVector InTargetLocation,
 	UCurveFloat* InHorizontalCurve, UCurveFloat* InHeightCurve,
-	float InMaxArcHeight /*=400.f*/)
+	float InLeapDuration /*=1.f*/, float InMaxArcHeight /*=400.f*/)
 {
 	UAbilityTask_LeapToTargetAndWait* Task =
 		NewAbilityTask<UAbilityTask_LeapToTargetAndWait>(OwningAbility);
@@ -26,6 +26,7 @@ UAbilityTask_LeapToTargetAndWait* UAbilityTask_LeapToTargetAndWait::Leap(
 	Task->TargetLocation = InTargetLocation;
 	Task->HorizontalCurve = InHorizontalCurve;
 	Task->HeightCurve = InHeightCurve;
+	Task->LeapDuration = InLeapDuration;
 	Task->MaxArcHeight = InMaxArcHeight;
 	
 	return Task;
