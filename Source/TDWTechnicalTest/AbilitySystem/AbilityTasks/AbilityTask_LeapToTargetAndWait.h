@@ -26,7 +26,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Ability|Tasks",
 		meta = (DisplayName="LeapToTargetAndWait",
 		HidePin = "OwningAbility", DefaultToSelf = "OwningAbility",
-		BlueprintInternalUseOnly = "TRUE"))
+		BlueprintInternalUseOnly = "true"))
 	static UAbilityTask_LeapToTargetAndWait* Leap(
 		UGameplayAbility* OwningAbility, FVector InTargetLocation,
 		class UCurveFloat* InHorizontalCurve, class UCurveFloat* InHeightCurve);
