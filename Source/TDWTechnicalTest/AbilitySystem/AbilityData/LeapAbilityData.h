@@ -13,15 +13,15 @@ struct FLeapAbiltiyKnockbackData
 	GENERATED_BODY()
 
 	/** */
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FScalableFloat PushRadius = FScalableFloat();
 	
 	/** */
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FScalableFloat KnockbackStrength = FScalableFloat();
 	
 	/** */
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FScalableFloat UpwardRatio = FScalableFloat();
 };
 
@@ -33,19 +33,24 @@ class TDWTECHNICALTEST_API ULeapAbilityData : public UAoEAbilityData
 {
 	GENERATED_BODY()
 
+public:
 	/** */
-	UPROPERTY(EditDefaultsOnly, Category="LeapAbility")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="LeapAbility")
 	FScalableFloat MinLeapDistance = FScalableFloat();
 	
 	/** */
-	UPROPERTY(EditDefaultsOnly, Category="LeapAbility")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="LeapAbility")
+	FScalableFloat MaxLeapDistance = FScalableFloat();
+	
+	/** */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="LeapAbility")
 	FScalableFloat MaxArcHeight = FScalableFloat();
 	
 	/** */
-	UPROPERTY(EditDefaultsOnly, Category="LeapAbility")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="LeapAbility")
 	FScalableFloat LeapBaseDuration = FScalableFloat();
 	
 	/** */
-	UPROPERTY(EditDefaultsOnly, Category="LeapAbility")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="LeapAbility")
 	FLeapAbiltiyKnockbackData KnockbackData = FLeapAbiltiyKnockbackData();
 };

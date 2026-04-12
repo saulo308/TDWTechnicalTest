@@ -15,11 +15,11 @@ struct FDamageCoefficientRange
 	GENERATED_BODY()
 
 	/** */
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FScalableFloat MinMultiplier = FScalableFloat();
 
 	/** */
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FScalableFloat MaxMultiplier = FScalableFloat();
 };
 
@@ -33,18 +33,18 @@ class TDWTECHNICALTEST_API UAbilityDataBase : public UPrimaryDataAsset
 
 public:
 	/** */
-	UPROPERTY(EditDefaultsOnly, Category="Base|Stats")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Base|Stats")
 	FDamageCoefficientRange DamageMultiplier = FDamageCoefficientRange();
 	
 	/** */
-	UPROPERTY(EditDefaultsOnly, Category="Base|Stats")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Base|Stats")
 	FScalableFloat ManaCost = FScalableFloat();
 
 	/** */
-	UPROPERTY(EditDefaultsOnly, Category="Base|Cooldown")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Base|Cooldown")
 	FScalableFloat CooldownDuration = FScalableFloat();
 	
 	/** */
-	UPROPERTY(EditDefaultsOnly, Category = "Base|Cooldown")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Base|Cooldown")
 	FGameplayTag CooldownTag = FGameplayTag();
 };

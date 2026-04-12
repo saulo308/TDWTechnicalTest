@@ -16,6 +16,6 @@ class TDWTECHNICALTEST_API UAoEAbilityData : public UAbilityDataBase
 	
 public:
 	/** */
-	UPROPERTY(EditDefaultsOnly, Category="AoEAbility")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="AoEAbility")
 	FScalableFloat AoEDamageRadius = FScalableFloat();
 };

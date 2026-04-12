@@ -44,6 +44,11 @@ public:
 		const TArray<AActor*>& Targets, float PushRadius,
 		float KnockbackStrength, float UpwardRatio);
 	
+	/** */
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category = "Stats")
+	float EvaluateScalableFloat(const FScalableFloat& ScalableFloat) const
+		{ return ScalableFloat.GetValueAtLevel(GetAbilityLevel()); }
+	
 public:
 	/** Returns all tags that can put this ability into cooldown */
 	virtual const FGameplayTagContainer* GetCooldownTags() const override;
