@@ -49,6 +49,11 @@ public:
 	float EvaluateScalableFloat(const FScalableFloat& ScalableFloat) const
 		{ return ScalableFloat.GetValueAtLevel(GetAbilityLevel()); }
 	
+	/** */
+	UFUNCTION(BlueprintCallable)
+	void ApplyStatusEffectToTargets(const TArray<AActor*>& Targets,
+		TSubclassOf<class UAbilityDataFragment_StatusEffect> StatusEffectClass);
+	
 public:
 	/** Returns all tags that can put this ability into cooldown */
 	virtual const FGameplayTagContainer* GetCooldownTags() const override;

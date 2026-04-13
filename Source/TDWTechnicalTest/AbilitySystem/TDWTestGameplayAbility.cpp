@@ -1,12 +1,15 @@
 // Copyright Saulo Soares. All rights reserved.
 
 #include "TDWTestGameplayAbility.h"
+#include "TDWTestAbilitySystemComponent.h"
 #include "AbilityData/AbilityDataBase.h"
 #include "AbilityData/AbilityDataFragment_Cooldown.h"
+#include "AbilityData/AbilityDataFragment_StatusEffect.h"
 #include "GameFramework/Character.h"
 #include "TDWTechnicalTest/TDWTestTags.h"
 #include "TDWTechnicalTest/TWDTechnicalTestLogging.h"
 #include "TDWTechnicalTest/Combat/BlueprintLibraries/CombatStaticsLibrary.h"
+#include "AbilitySystemGlobals.h"
 
 const FGameplayTagContainer* UTDWTestGameplayAbility::GetCooldownTags() const
 {
@@ -116,5 +119,37 @@ void UTDWTestGameplayAbility::ApplyRadialKnockbackToCharacters(
 
 		UCombatStaticsLibrary::ApplyRadialKnockback(Source,
 			Cast<ACharacter>(Target), KnockbackStrength, UpwardRatio);
+	}
+}
+
+void UTDWTestGameplayAbility::ApplyStatusEffectToTargets(
+	const TArray<AActor*>& Targets,
+	TSubclassOf<UAbilityDataFragment_StatusEffect> StatusEffectClass)
+{
+	const auto* Fragment = Cast<UAbilityDataFragment_StatusEffect>(
+		AbilityData->FindFragmentByClass(StatusEffectClass));
+
+	if (!Fragment)
+	{
+		TDWTestLog_WARNING(TEXT("Could not find fragment [%s] to apply to "
+			"targets on ability [%s]."), *StatusEffectClass->GetName(),
+			*GetNameSafe(this));
+		return;
+	}
+
+	for (const auto* Target : Targets)
+	{
+		auto* TargetASC =
+			UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(Target);
+
+		if (!TargetASC)
+		{
+			continue;
+		}
+
+		if (Fragment->ShouldApply(this, TargetASC))
+		{
+			Fragment->Apply(this, TargetASC);
+		}
 	}
 }
