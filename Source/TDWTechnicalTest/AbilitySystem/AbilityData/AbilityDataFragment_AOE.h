@@ -3,14 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AbilityDataBase.h"
-#include "AoEAbilityData.generated.h"
+#include "AbilityDataFragment.h"
+#include "ScalableFloat.h"
+#include "AbilityDataFragment_AOE.generated.h"
 
 /**
  * 
  */
-UCLASS()
-class TDWTECHNICALTEST_API UAoEAbilityData : public UAbilityDataBase
+UCLASS(BlueprintType)
+class TDWTECHNICALTEST_API UAbilityDataFragment_AOE :
+	public UAbilityDataFragment
 {
 	GENERATED_BODY()
 	

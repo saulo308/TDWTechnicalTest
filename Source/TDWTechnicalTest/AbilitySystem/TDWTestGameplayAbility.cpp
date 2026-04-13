@@ -2,6 +2,7 @@
 
 #include "TDWTestGameplayAbility.h"
 #include "AbilityData/AbilityDataBase.h"
+#include "AbilityData/AbilityDataFragment_Cooldown.h"
 #include "GameFramework/Character.h"
 #include "TDWTechnicalTest/TDWTestTags.h"
 #include "TDWTechnicalTest/TWDTechnicalTestLogging.h"
@@ -10,6 +11,13 @@
 const FGameplayTagContainer* UTDWTestGameplayAbility::GetCooldownTags() const
 {
 	if (!AbilityData)
+	{
+		return Super::GetCooldownTags();
+	}
+	
+	const auto CooldownAbilityData = AbilityData->FindFragment<
+		UAbilityDataFragment_Cooldown>();
+	if (!CooldownAbilityData)
 	{
 		return Super::GetCooldownTags();
 	}
@@ -27,7 +35,7 @@ const FGameplayTagContainer* UTDWTestGameplayAbility::GetCooldownTags() const
 
 	// Also append designer-defined cooldown tag, as we will add these tags
 	// through the cooldown GE
-	MutableTags->AddTag(AbilityData->CooldownTag);
+	MutableTags->AddTag(CooldownAbilityData->CooldownTag);
 	return MutableTags;
 }
 
@@ -49,16 +57,28 @@ void UTDWTestGameplayAbility::ApplyCooldown(
 		return;
 	}
 
+	// Get the cooldown fragment, so we can use the cooldown data set by
+	// designer
+	const auto CooldownAbilityData = AbilityData->FindFragment<
+		UAbilityDataFragment_Cooldown>();
+	if (!CooldownAbilityData)
+	{
+		TDWTestLog_ERROR(TEXT("No cooldown fragment set on ability [%s]. "
+			"Cooldown will not be applied."), *GetNameSafe(this));
+		return;
+	}
+	
 	// Create the GE handle, so we can apply our ability duration
 	auto SpecHandle = MakeOutgoingGameplayEffectSpec(CooldownGE->GetClass(),
 		GetAbilityLevel());
-	
+
 	// Add the cooldown tag to the GE
-	SpecHandle.Data.Get()->DynamicGrantedTags.AddTag(AbilityData->CooldownTag);
+	SpecHandle.Data.Get()->DynamicGrantedTags.AddTag(
+		CooldownAbilityData->CooldownTag);
 	
 	// Set the duration defined by designer on the GE
-	const float CooldownDuration =
-		AbilityData->CooldownDuration.GetValueAtLevel(GetAbilityLevel());
+	const float CooldownDuration = CooldownAbilityData->CooldownDuration.
+		GetValueAtLevel(GetAbilityLevel());
 	SpecHandle.Data.Get()->SetSetByCallerMagnitude(
 		TDWTestGameplayTags::AbilityCooldownTag, CooldownDuration);
 	

@@ -4,6 +4,7 @@
 #include "TDWTechnicalTest/TWDTechnicalTestLogging.h"
 #include "TDWTechnicalTest/AbilitySystem/TDWTestGameplayAbility.h"
 #include "TDWTechnicalTest/AbilitySystem/AbilityData/AbilityDataBase.h"
+#include "TDWTechnicalTest/AbilitySystem/AbilityData/AbilityDataFragment_Damage.h"
 #include "TDWTechnicalTest/AbilitySystem/Attributes/CombatSet.h"
 #include "TDWTechnicalTest/AbilitySystem/Attributes/VitalsSet.h"
 
@@ -51,13 +52,23 @@ void UDamageExecution::Execute_Implementation(
 		return;
 	}
 
+	// Get the damage fragment, so we can use the damage data set by designer
+	const auto DamageAbilityData = AbilityData->FindFragment<
+		UAbilityDataFragment_Damage>();
+	if (!DamageAbilityData)
+	{
+		TDWTestLog_ERROR(TEXT("No damage  set on ability [%s]. Damage will not "
+			"be applied."), *GetNameSafe(this));
+		return;
+	}
+	
 	// Calculate the final damage multiplier using a random value between the
 	// min/max set by designer
 	const int32 AbilityLevel = Ability->GetAbilityLevel();
-	const float MinDamageMultiplier =
-		AbilityData->DamageMultiplier.MinMultiplier.GetValueAtLevel(AbilityLevel);
-	const float MaxDamageMultiplier =
-		AbilityData->DamageMultiplier.MaxMultiplier.GetValueAtLevel(AbilityLevel);
+	const float MinDamageMultiplier = DamageAbilityData->DamageMultiplier.
+		MinMultiplier.GetValueAtLevel(AbilityLevel);
+	const float MaxDamageMultiplier = DamageAbilityData->DamageMultiplier.
+		MaxMultiplier.GetValueAtLevel(AbilityLevel);
 	const float FinalDamageMultiplier = FMath::FRandRange(MinDamageMultiplier,
 		MaxDamageMultiplier);
 

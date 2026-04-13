@@ -3,25 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ScalableFloat.h"
 #include "Engine/DataAsset.h"
 #include "GameplayTagContainer.h"
 #include "AbilityDataBase.generated.h"
-
-/** */
-USTRUCT(BlueprintType)
-struct FDamageCoefficientRange
-{
-	GENERATED_BODY()
-
-	/** */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	FScalableFloat MinMultiplier = FScalableFloat();
-
-	/** */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	FScalableFloat MaxMultiplier = FScalableFloat();
-};
 
 /**
  * 
@@ -33,18 +17,22 @@ class TDWTECHNICALTEST_API UAbilityDataBase : public UPrimaryDataAsset
 
 public:
 	/** */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Base|Stats")
-	FDamageCoefficientRange DamageMultiplier = FDamageCoefficientRange();
+	UFUNCTION(BlueprintCallable, meta=(DeterminesOutputType="FragmentClass"))
+	const class UAbilityDataFragment* FindFragmentByClass(
+		TSubclassOf<class UAbilityDataFragment> FragmentClass) const;
+	
+public:
+	/** */
+	template<typename T>
+	const T* FindFragment() const
+		{ return Cast<T>(FindFragmentByClass(T::StaticClass())); }
+	
+public:
+	/** */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FGameplayTag AbilityUniqueId = FGameplayTag();
 	
 	/** */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Base|Stats")
-	FScalableFloat ManaCost = FScalableFloat();
-
-	/** */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Base|Cooldown")
-	FScalableFloat CooldownDuration = FScalableFloat();
-	
-	/** */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Base|Cooldown")
-	FGameplayTag CooldownTag = FGameplayTag();
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Instanced)
+	TArray<TObjectPtr<class UAbilityDataFragment>> AbilityFragments;
 };
