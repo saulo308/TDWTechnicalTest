@@ -16,9 +16,6 @@ class TDWTECHNICALTEST_API UVitalsSet : public UAttributeSetBase
 
 protected:
 	/** */
-	//virtual bool PreGameplayEffectExecute(FGameplayEffectModCallbackData& Data) override;
-	
-	/** */
 	virtual void PostGameplayEffectExecute(
 		const FGameplayEffectModCallbackData& Data) override;
 
@@ -42,6 +39,9 @@ public:
 	ATTRIBUTE_ACCESSORS(UVitalsSet, Mana);
 	ATTRIBUTE_ACCESSORS(UVitalsSet, MaxMana);
 	ATTRIBUTE_ACCESSORS(UVitalsSet, Damage);
+	
+	// Delegate to broadcast when the health attribute reaches zero
+	mutable FAttributeEvent OnOutOfHealth;
 	
 private:
 	/** */
@@ -74,4 +74,8 @@ private:
 	UPROPERTY(BlueprintReadOnly, Category="TDWTest|Vitals",
 		Meta=(HideFromModifiers, AllowPrivateAccess=true))
 	FGameplayAttributeData Damage;
+	
+private:
+	// Used to track when the health reaches 0.
+	bool bOutOfHealth = false;
 };

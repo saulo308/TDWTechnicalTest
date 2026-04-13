@@ -23,6 +23,8 @@
 	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
+DECLARE_MULTICAST_DELEGATE(FAttributeEvent)
+
 /** Base attribute set class for the project. */
 UCLASS(BlueprintType)
 class TDWTECHNICALTEST_API UAttributeSetBase : public UAttributeSet

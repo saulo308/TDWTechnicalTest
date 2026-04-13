@@ -15,6 +15,14 @@ void UVitalsSet::PostGameplayEffectExecute(
 		SetHealth(FMath::Clamp(GetHealth() - GetDamage(), 0.f, GetMaxHealth()));
 		SetDamage(0.0f);
 	}
+
+	if ((GetHealth() <= 0.0f) && !bOutOfHealth)
+	{
+		OnOutOfHealth.Broadcast();
+	}
+	
+	// Check health again in case a GE changed it.
+	bOutOfHealth = (GetHealth() <= 0.0f);
 }
 
 void UVitalsSet::PreAttributeBaseChange(const FGameplayAttribute& Attribute,
