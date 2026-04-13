@@ -29,4 +29,8 @@ protected:
 	/** */
 	UPROPERTY(BlueprintAssignable)
 	FOnAbilitySystemComponentInitialized OnAbilitySystemComponentInitialized;
+
+	/** */
+	UPROPERTY()
+	TObjectPtr<class UHealthComponent> HealthComponent;
 };

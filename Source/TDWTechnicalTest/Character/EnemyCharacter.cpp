@@ -2,12 +2,12 @@
 
 
 #include "EnemyCharacter.h"
-
 #include "TDWTechnicalTest/TDWTestTags.h"
 #include "TDWTechnicalTest/TWDTechnicalTestLogging.h"
 #include "TDWTechnicalTest/AbilitySystem/AbilitySet.h"
 #include "TDWTechnicalTest/AbilitySystem/TDWTestAbilitySystemComponent.h"
 #include "TDWTechnicalTest/Character/Data/PawnData.h"
+#include "TDWTechnicalTest/Combat/Components/HealthComponent.h"
 
 AEnemyCharacter::AEnemyCharacter()
 {
@@ -42,6 +42,9 @@ void AEnemyCharacter::PossessedBy(AController* NewController)
 		TDWTestGameplayTags::StunMovementState,
 		EGameplayTagEventType::NewOrRemoved).AddUObject(this,
 		&AEnemyCharacter::OnStunTagChangedCallback);
+	
+	check(HealthComponent);
+	HealthComponent->InitializeWithAbilitySystem(AbilitySystemComponent);
 	
 	OnAbilitySystemComponentInitialized.Broadcast();
 }

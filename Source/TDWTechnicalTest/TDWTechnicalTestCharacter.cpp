@@ -7,6 +7,7 @@
 #include "Camera/CameraComponent.h"
 #include "Character/CharacterInputHandler.h"
 #include "Character/Data/PawnData.h"
+#include "Combat/Components/HealthComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PlayerController.h"
@@ -88,6 +89,9 @@ void ATDWTechnicalTestCharacter::PossessedBy(AController* NewController)
 		TDWTestPlayerState->SetPawnData(LoadedPawnData);
 	}
 
+	check(HealthComponent);
+	HealthComponent->InitializeWithAbilitySystem(AbilitySystemComponent);
+	
 	OnAbilitySystemComponentInitialized.Broadcast();
 }
 
