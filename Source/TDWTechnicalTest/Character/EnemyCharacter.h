@@ -7,6 +7,8 @@
 #include "TDWTechnicalTestCharacterBase.h"
 #include "EnemyCharacter.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnStunTagChanged);
+
 /**
 * 
 */
@@ -40,6 +42,11 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	/** */
+	UFUNCTION()
+	void OnStunTagChangedCallback(const FGameplayTag Tag, int32 NewCount);
+
+private:
 	/**
 	* Initializes the ASC. Will call "InitAbilityActorInfo" on it, passing the
 	* PlayerState as owner and the Character as the avatar.
@@ -48,6 +55,11 @@ private:
 	
 	/** */
 	void SetPawnData(const TObjectPtr<class UPawnData>& PawnData);
+
+public:
+	/** */
+	UPROPERTY(BlueprintAssignable)
+	FOnStunTagChanged OnStunTagChanged;
 	
 protected:
 	/** */

@@ -2,6 +2,8 @@
 
 
 #include "EnemyCharacter.h"
+
+#include "TDWTechnicalTest/TDWTestTags.h"
 #include "TDWTechnicalTest/TWDTechnicalTestLogging.h"
 #include "TDWTechnicalTest/AbilitySystem/AbilitySet.h"
 #include "TDWTechnicalTest/AbilitySystem/TDWTestAbilitySystemComponent.h"
@@ -36,6 +38,11 @@ void AEnemyCharacter::PossessedBy(AController* NewController)
 		SetPawnData(LoadedPawnData);
 	}
 
+	AbilitySystemComponent->RegisterGameplayTagEvent(
+		TDWTestGameplayTags::StunMovementState,
+		EGameplayTagEventType::NewOrRemoved).AddUObject(this,
+		&AEnemyCharacter::OnStunTagChangedCallback);
+	
 	OnAbilitySystemComponentInitialized.Broadcast();
 }
 
@@ -73,4 +80,10 @@ void AEnemyCharacter::SetPawnData(const TObjectPtr<UPawnData>& PawnData)
 UAbilitySystemComponent* AEnemyCharacter::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
+}
+
+void AEnemyCharacter::OnStunTagChangedCallback(const FGameplayTag Tag,
+	int32 NewCount)
+{
+	OnStunTagChanged.Broadcast();
 }
