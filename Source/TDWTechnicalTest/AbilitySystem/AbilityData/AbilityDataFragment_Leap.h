@@ -32,4 +32,12 @@ public:
 	/** */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FScalableFloat LeapDuration = FScalableFloat();
+	
+	/** */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UCurveFloat> HorizontalCurve;
+	
+	/** */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UCurveFloat> HeightCurve;
 };
