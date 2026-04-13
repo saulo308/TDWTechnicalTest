@@ -55,7 +55,8 @@ void UGASTargetingLibrary::GetActorsInRadius(UWorld* World,
 
 FLeapTargetResult UGASTargetingLibrary::CalculateLeapTarget(
 	UObject* WorldContextObject, const APlayerController* PlayerController,
-	const FVector& Origin, float MaxDistance, float MaxHeight)
+	const FVector& Origin, float MaxDistance, float MaxHeight,
+	bool TraceMaxDistance)
 {
 	if (!WorldContextObject)
 	{
@@ -102,6 +103,12 @@ FLeapTargetResult UGASTargetingLibrary::CalculateLeapTarget(
 		TDWTestLog_ERROR(TEXT("Couldn't find plane intersection between mouse "
 			"and origin. Failed to find leap target."));
 		return FLeapTargetResult();
+	}
+
+	if (TraceMaxDistance)
+	{
+		DrawDebugBox(PlayerController->GetWorld(), Origin, FVector(MaxDistance),
+			FColor::Red, false, 2.0f, 0, 2.0f);
 	}
 
 	// Now that we have the mouse world location "on ground" try to get such

@@ -44,5 +44,5 @@ public:
 	UFUNCTION(BlueprintCallable, Category="GASTargeting")
 	static FLeapTargetResult CalculateLeapTarget(UObject* WorldContextObject,
 		const APlayerController* PlayerController, const FVector& Origin,
-		float MaxDistance, float MaxHeight);
+		float MaxDistance, float MaxHeight, bool TraceMaxDistance);
 };
