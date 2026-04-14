@@ -126,6 +126,12 @@ void UTDWTestGameplayAbility::ApplyStatusEffectToTargets(
 	const TArray<AActor*>& Targets,
 	TSubclassOf<UAbilityDataFragment_StatusEffect> StatusEffectClass)
 {
+	if (!AbilityData)
+	{
+		return;
+	}
+	
+	// Get the status effect by its class on the ability data
 	const auto* Fragment = Cast<UAbilityDataFragment_StatusEffect>(
 		AbilityData->FindFragmentByClass(StatusEffectClass));
 
@@ -136,7 +142,7 @@ void UTDWTestGameplayAbility::ApplyStatusEffectToTargets(
 			*GetNameSafe(this));
 		return;
 	}
-
+	
 	for (const auto* Target : Targets)
 	{
 		auto* TargetASC =
@@ -147,6 +153,13 @@ void UTDWTestGameplayAbility::ApplyStatusEffectToTargets(
 			continue;
 		}
 
+		// Check with the fragment if we can apply the status effect. This is
+		// really powerful, as the fragment can do any check it wants to return
+		// if the target should receive this status or not.
+		//
+		// For instance, for stun fragment, it checks if the target is full
+		// health. If so, then we can apply it with 100% chance. If not, then
+		// we may do it by chance.
 		if (Fragment->ShouldApply(this, TargetASC))
 		{
 			Fragment->Apply(this, TargetASC);

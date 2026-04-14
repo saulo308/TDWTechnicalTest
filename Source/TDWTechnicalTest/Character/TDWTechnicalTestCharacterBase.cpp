@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Copyright Saulo Soares. All rights reserved.
 
 #include "TDWTechnicalTestCharacterBase.h"
 

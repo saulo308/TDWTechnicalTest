@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Copyright Saulo Soares. All rights reserved.
 
 #include "TDWTechnicalTestCharacter.h"
 #include "UObject/ConstructorHelpers.h"
@@ -75,6 +75,7 @@ void ATDWTechnicalTestCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 	
+	// Init the ASC ability actor info with this as Avatar
 	InitAbilitySystemComponent();
 
 	// Set pawn data on player state, so it can give the player's AbilitySets.
@@ -87,9 +88,11 @@ void ATDWTechnicalTestCharacter::PossessedBy(AController* NewController)
 		TDWTestPlayerState->SetPawnData(LoadedPawnData);
 	}
 
+	// Initialize the health component, so we know when we ran out of health
 	check(HealthComponent);
 	HealthComponent->InitializeWithAbilitySystem(AbilitySystemComponent);
 	
+	// Let BP initialize any logic needed after ASC
 	OnAbilitySystemComponentInitialized.Broadcast();
 }
 

@@ -4,6 +4,10 @@
 
 #include "NativeGameplayTags.h"
 
+/**
+* List of tags used in Cpp and also in BP. Here is easier and more safe to
+* declare, as they will be added automatically to project (see .cpp).
+*/
 namespace TDWTestGameplayTags
 {
 	TDWTECHNICALTEST_API	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Move);

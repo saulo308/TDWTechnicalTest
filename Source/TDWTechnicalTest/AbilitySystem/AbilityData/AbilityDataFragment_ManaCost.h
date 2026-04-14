@@ -7,9 +7,8 @@
 #include "ScalableFloat.h"
 #include "AbilityDataFragment_ManaCost.generated.h"
 
-/**
- * 
- */
+
+/** Adds mana cost data to an ability data. */
 UCLASS(BlueprintType)
 class TDWTECHNICALTEST_API UAbilityDataFragment_ManaCost :
 	public UAbilityDataFragment
@@ -17,7 +16,6 @@ class TDWTECHNICALTEST_API UAbilityDataFragment_ManaCost :
 	GENERATED_BODY()
 	
 public:
-	/** */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FScalableFloat ManaCost = FScalableFloat();
 };

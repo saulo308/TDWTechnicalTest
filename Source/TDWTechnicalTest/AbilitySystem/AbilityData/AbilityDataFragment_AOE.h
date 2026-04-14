@@ -7,9 +7,7 @@
 #include "ScalableFloat.h"
 #include "AbilityDataFragment_AOE.generated.h"
 
-/**
- * 
- */
+/** Adds Area of Effect (AOE) data to an ability data. */
 UCLASS(BlueprintType)
 class TDWTECHNICALTEST_API UAbilityDataFragment_AOE :
 	public UAbilityDataFragment
@@ -17,7 +15,6 @@ class TDWTECHNICALTEST_API UAbilityDataFragment_AOE :
 	GENERATED_BODY()
 	
 public:
-	/** */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="AoEAbility")
 	FScalableFloat AoEDamageRadius = FScalableFloat();
 };

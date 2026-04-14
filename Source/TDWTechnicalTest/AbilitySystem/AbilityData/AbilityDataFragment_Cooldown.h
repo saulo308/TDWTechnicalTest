@@ -8,9 +8,8 @@
 #include "GameplayTagContainer.h"
 #include "AbilityDataFragment_Cooldown.generated.h"
 
-/**
- * 
- */
+
+/** Adds cooldown data to an ability data. */
 UCLASS(BlueprintType)
 class TDWTECHNICALTEST_API UAbilityDataFragment_Cooldown :
 	public UAbilityDataFragment
@@ -18,11 +17,9 @@ class TDWTECHNICALTEST_API UAbilityDataFragment_Cooldown :
 	GENERATED_BODY()
 	
 public:
-	/** */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FScalableFloat CooldownDuration = FScalableFloat();
 	
-	/** */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FGameplayTag CooldownTag = FGameplayTag();
 };

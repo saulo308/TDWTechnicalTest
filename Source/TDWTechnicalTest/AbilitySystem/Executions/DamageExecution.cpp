@@ -10,6 +10,8 @@
 
 UDamageExecution::UDamageExecution()
 {
+	// Capture source base damage attribute to scale with ability's damage
+	// multiplier
 	BaseDamageDef.AttributeToCapture = UCombatSet::GetBaseDamageAttribute();
 	BaseDamageDef.AttributeSource = EGameplayEffectAttributeCaptureSource::Source;
 	BaseDamageDef.bSnapshot = true;

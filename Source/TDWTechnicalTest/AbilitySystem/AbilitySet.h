@@ -9,7 +9,13 @@
 #include "GameplayAbilitySpecHandle.h"
 #include "AbilitySet.generated.h"
 
-/**	Data used by the ability set to grant gameplay abilities. */
+/**
+* Data used by the ability set to grant gameplay abilities.
+*
+* This is how we bind input tag to abilities. The input tag should match
+* the tag bound to input actions. During input processing, we can find this
+* GA by its input tag.
+*/
 USTRUCT(BlueprintType)
 struct FAbilitySet_GameplayAbility
 {
@@ -60,16 +66,10 @@ struct FAbilitySet_GrantedHandles
 {
 	GENERATED_BODY()
 
-	/** */
 	void TakeFromAbilitySystem(class UAbilitySystemComponent* TargetASC);
 	
-	/** */
 	void AddAbilitySpecHandle(const FGameplayAbilitySpecHandle& Handle);
-	
-	/** */
 	void AddGameplayEffectHandle(const FActiveGameplayEffectHandle& Handle);
-	
-	/** */
 	void AddAttributeSet(UAttributeSet* Set);
 
 protected:
@@ -86,9 +86,9 @@ protected:
 	TArray<TObjectPtr<UAttributeSet>> GrantedAttributeSets;
 };
 
-
 /**
-* Non-mutable data asset used to grant gameplay abilities and gameplay effects.
+* Non-mutable data asset used to grant gameplay abilities, gameplay effects and
+* attributes.
 */
 UCLASS(BlueprintType, Const)
 class UAbilitySet : public UPrimaryDataAsset

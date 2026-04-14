@@ -26,6 +26,7 @@ FVector UCombatStaticsLibrary::ComputeKnockbackVelocity(
 	const FVector& SourceLocation, const FVector& TargetLocation,
 	float LaunchStrength, float UpwardRatio)
 {
+	// Calculate the knockback direction relative to source
 	FVector Direction = TargetLocation - SourceLocation;
 
 	// Ignore vertical difference for radial push

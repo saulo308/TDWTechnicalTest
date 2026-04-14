@@ -30,22 +30,28 @@ void AEnemyCharacter::Tick(float DeltaTime)
 void AEnemyCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
-	
+
+	// Init the ASC ability actor info with this as Avatar
 	InitAbilitySystemComponent();
 
+	// Give the pawn data to character
 	if (const auto LoadedPawnData = DefaultPawnData.LoadSynchronous())
 	{
 		SetPawnData(LoadedPawnData);
 	}
 
+	// Register any notification on stun tag updated, so we know when character
+	// gets in/out of stun
 	AbilitySystemComponent->RegisterGameplayTagEvent(
 		TDWTestGameplayTags::StunMovementState,
 		EGameplayTagEventType::NewOrRemoved).AddUObject(this,
 		&AEnemyCharacter::OnStunTagChangedCallback);
-	
+
+	// Initialize the health component, so we know when we ran out of health
 	check(HealthComponent);
 	HealthComponent->InitializeWithAbilitySystem(AbilitySystemComponent);
-	
+
+	// Let BP initialize any logic needed after ASC
 	OnAbilitySystemComponentInitialized.Broadcast();
 }
 

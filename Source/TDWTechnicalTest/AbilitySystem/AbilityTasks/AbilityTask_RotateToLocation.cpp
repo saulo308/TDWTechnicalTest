@@ -27,7 +27,7 @@ void UAbilityTask_RotateToLocation::Activate()
 {
 	Super::Activate();
 
-	AActor* Avatar = GetAvatarActor();
+	auto* Avatar = GetAvatarActor();
 	if (!Avatar)
 	{
 		EndTask();
@@ -58,6 +58,7 @@ void UAbilityTask_RotateToLocation::TickTask(float DeltaTime)
 		return;
 	}
 
+	// Get the delta direction to rotate
 	const FVector ActorLocation = Character->GetActorLocation();
 	FVector Direction = TargetLocation - ActorLocation;
 	Direction.Z = 0;
@@ -68,13 +69,15 @@ void UAbilityTask_RotateToLocation::TickTask(float DeltaTime)
 		return;
 	}
 
+	// Calculate the target rotation and apply interpolation on character
 	const FRotator TargetRotation = Direction.Rotation();
 	const FRotator CurrentRotation = Character->GetActorRotation();
 
 	const FRotator NewRotation = FMath::RInterpTo(CurrentRotation,
 		TargetRotation,	DeltaTime, SmoothTime);
-
 	Character->SetActorRotation(NewRotation);
+	
+	// If rotation has reached final target rotation, finish task
 	if (CurrentRotation.Equals(TargetRotation, 1.0f))
 	{
 		bCanRotate = false;

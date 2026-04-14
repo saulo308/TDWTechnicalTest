@@ -3,6 +3,7 @@
 
 #include "DebugCVarsLibrary.h"
 
+// Devs can use this console command to allow abilities trace debugging
 TAutoConsoleVariable<int32> CVarDebugTraceAbility(
 	TEXT("ability.Debug.TraceAbility"),
 	0,

@@ -8,8 +8,10 @@
 #include "AbilityDataFragment_StatusEffect.generated.h"
 
 /**
- * 
- */
+* Special type of ability fragment, which allows to apply a given GE to a
+* target. Other fragments can subclass this to define if and how the GE will
+* be applied to target.
+*/
 UCLASS(BlueprintType)
 class TDWTECHNICALTEST_API UAbilityDataFragment_StatusEffect :
 	public UAbilityDataFragment
@@ -17,12 +19,12 @@ class TDWTECHNICALTEST_API UAbilityDataFragment_StatusEffect :
 	GENERATED_BODY()
 	
 public:
-	/** Determines if the effect should be applied */
+	/** Determines if the effect should be applied to target. */
 	virtual bool ShouldApply(
 		TObjectPtr<class UTDWTestGameplayAbility> Ability,
 		TObjectPtr<class UAbilitySystemComponent> TargetASC) const;
 
-	/** Applies the gameplay effect */
+	/** Applies the gameplay effect to a given target. */
 	virtual void Apply(TObjectPtr<class UTDWTestGameplayAbility> Ability,
 		TObjectPtr<class UAbilitySystemComponent> TargetASC) const;
 	

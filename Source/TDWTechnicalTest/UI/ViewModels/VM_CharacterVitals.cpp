@@ -56,6 +56,8 @@ void UVM_CharacterVitals::BindAttribute(const FGameplayAttribute& Attribute,
 		return;
 	}
 
+	// Weak lambda for safety. If this object dies without unbind, we won't
+	// crash if delegate gets called for invalid object
 	FDelegateHandle Handle = OwningAsc->GetGameplayAttributeValueChangeDelegate(
 		Attribute).AddWeakLambda(this,
 		[this, OnChanged](const FOnAttributeChangeData& Data)
@@ -131,6 +133,7 @@ void UVM_CharacterVitals::SetMaxMana(float NewMaxMana)
 
 float UVM_CharacterVitals::GetHealthPercent() const
 {
+	// Avoid zero division...
 	if (!FMath::IsNearlyZero(MaxHealth))
 	{
 		return CurrentHealth / MaxHealth;
@@ -141,6 +144,7 @@ float UVM_CharacterVitals::GetHealthPercent() const
 
 float UVM_CharacterVitals::GetManaPercent() const
 {
+	// Avoid zero division...
 	if (!FMath::IsNearlyZero(MaxMana))
 	{
 		return CurrentMana / MaxMana;

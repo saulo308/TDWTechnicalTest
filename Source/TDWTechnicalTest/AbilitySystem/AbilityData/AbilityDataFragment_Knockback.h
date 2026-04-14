@@ -7,9 +7,8 @@
 #include "ScalableFloat.h"
 #include "AbilityDataFragment_Knockback.generated.h"
 
-/**
- * 
- */
+
+/** Adds knockback data to an ability data. */
 UCLASS(BlueprintType)
 class TDWTECHNICALTEST_API UAbilityDataFragment_Knockback :
 	public UAbilityDataFragment
@@ -17,16 +16,12 @@ class TDWTECHNICALTEST_API UAbilityDataFragment_Knockback :
 	GENERATED_BODY()
 	
 public:
-	
-	/** */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FScalableFloat PushRadius = FScalableFloat();
 	
-	/** */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FScalableFloat KnockbackStrength = FScalableFloat();
 	
-	/** */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FScalableFloat UpwardRatio = FScalableFloat();
 };

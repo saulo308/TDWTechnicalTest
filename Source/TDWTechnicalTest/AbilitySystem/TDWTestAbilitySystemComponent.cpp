@@ -22,6 +22,7 @@ void UTDWTestAbilitySystemComponent::AbilitySpecInputPressed(
 	// works.
 	if (Spec.IsActive())
 	{
+		// I mean... Lyra sample project does this on UE5.7... so...
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 		const UGameplayAbility* Instance = Spec.GetPrimaryInstance();
 		FPredictionKey OriginalPredictionKey = Instance ?
@@ -47,6 +48,7 @@ void UTDWTestAbilitySystemComponent::AbilitySpecInputReleased(
 	// works.
 	if (Spec.IsActive())
 	{
+		// I mean... Lyra sample project does this on UE5.7... so...
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 		const UGameplayAbility* Instance = Spec.GetPrimaryInstance();
 		FPredictionKey OriginalPredictionKey = Instance ?

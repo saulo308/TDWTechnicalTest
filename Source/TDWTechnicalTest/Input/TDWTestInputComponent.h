@@ -10,7 +10,18 @@
 #include "TDWTestInputComponent.generated.h"
 
 /**
-* 
+* Custom enhanced input component for the project.
+*
+* Allows binding to "ability actions" and "input actions".
+*	1. Ability Actions: Input actions bound to abilities (GAs).
+*	2. Native Actions: Any other action, like move, jump, look, etc.
+*
+* In the former case (ability actions binding), will call a callback that
+* receives a gameplay tag as parameters; instead of a FInputActionValue. This is
+* important, as this is how we bind input actions to "input tags", which are
+* also tags bound to GAs when they are given to player's ASC. Thus, once an
+* input action has been pressed/released, we know that we should activate/send
+* pressed/released events to its corresponding GA.
 */
 UCLASS()
 class TDWTECHNICALTEST_API UTDWTestInputComponent : 
