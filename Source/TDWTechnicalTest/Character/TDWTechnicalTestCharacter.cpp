@@ -1,20 +1,18 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "TDWTechnicalTestCharacter.h"
-#include "TWDTechnicalTestLogging.h"
-#include "AbilitySystem/TDWTestAbilitySystemComponent.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Camera/CameraComponent.h"
-#include "Character/CharacterInputHandler.h"
-#include "Character/Data/PawnData.h"
-#include "Combat/Components/HealthComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Materials/Material.h"
 #include "Engine/World.h"
-#include "Player/TDWTestPlayerState.h"
+#include "TDWTechnicalTest/TWDTechnicalTestLogging.h"
+#include "TDWTechnicalTest/AbilitySystem/TDWTestAbilitySystemComponent.h"
+#include "TDWTechnicalTest/Combat/Components/HealthComponent.h"
+#include "TDWTechnicalTest/Player/TDWTestPlayerState.h"
 
 ATDWTechnicalTestCharacter::ATDWTechnicalTestCharacter()
 {

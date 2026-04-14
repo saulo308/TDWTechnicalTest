@@ -6,6 +6,7 @@
 #include "InputActionValue.h"
 #include "Components/ActorComponent.h"
 #include "TDWTechnicalTest/Input/Data/TDWTestInputConfig.h"
+#include "TDWTechnicalTest/Character/Data/PawnData.h"
 #include "CharacterInputHandler.generated.h"
 
 /**

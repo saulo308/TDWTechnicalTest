@@ -1,8 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "TDWTechnicalTestGameMode.h"
-#include "TDWTechnicalTestPlayerController.h"
-#include "TDWTechnicalTestCharacter.h"
+#include "Player/TDWTechnicalTestPlayerController.h"
 #include "UObject/ConstructorHelpers.h"
 
 ATDWTechnicalTestGameMode::ATDWTechnicalTestGameMode()

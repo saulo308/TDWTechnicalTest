@@ -1,11 +1,11 @@
 // Copyright Saulo Soares. All rights reserved.
 
 #include "TDWTechnicalTestPlayerController.h"
-#include "AbilitySystem/TDWTestAbilitySystemComponent.h"
+#include "TDWTechnicalTest/AbilitySystem/TDWTestAbilitySystemComponent.h"
 #include "GameFramework/Pawn.h"
 #include "Engine/World.h"
 #include "Engine/LocalPlayer.h"
-#include "Player/TDWTestPlayerState.h"
+#include "TDWTechnicalTest/Player/TDWTestPlayerState.h"
 
 ATDWTechnicalTestPlayerController::ATDWTechnicalTestPlayerController()
 {

@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
-#include "Character/CharacterInputHandler.h"
-#include "Character/TDWTechnicalTestCharacterBase.h"
+#include "CharacterInputHandler.h"
+#include "TDWTechnicalTestCharacterBase.h"
 #include "TDWTechnicalTestCharacter.generated.h"
 
 UCLASS(Blueprintable)
