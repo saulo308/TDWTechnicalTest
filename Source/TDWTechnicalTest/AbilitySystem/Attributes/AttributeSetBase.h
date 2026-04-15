@@ -10,7 +10,7 @@
 * attributes.
 *
 * The following example of the macro:
-*		ATTRIBUTE_ACCESSORS(ULyraHealthSet, Health)
+*		ATTRIBUTE_ACCESSORS(UAttributeSetBase, Health)
 * will create the following functions:
 *		static FGameplayAttribute GetHealthAttribute();
 *		float GetHealth() const;
