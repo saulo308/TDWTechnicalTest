@@ -55,7 +55,7 @@ all driven by a single GA implementation. The GA would simply check for the pres
 
 This design philosophy was also extended to other systems:
 - Use of `BPFunctionLibrary` for shared logic
-- A unified Gameplay Effect (GE) for cost and cooldown, implemented using MMCs and `UGameplayEffectExecutionCalculation`
+- Generic Gameplay Effects (GE) for cost and cooldown, implemented using MMCs and `UGameplayEffectExecutionCalculation`, allowing reuse
 
 Overall, the system was designed with extensibility and scalability as primary goals.
 
