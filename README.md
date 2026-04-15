@@ -111,7 +111,7 @@ This approach ensures a clean separation between input configuration and ability
 
 # Limitations & Future Work
 
-Due to full-time work commitments, development on this test was limited to off-hours and weekends. As a result, some aspects were (unfortunately) intentionally left incomplete and would benefit from further iteration and polish.
+Due to full-time work commitments, development on this test was limited to off-hours and weekend. As a result, some aspects were (unfortunately) intentionally left incomplete and would benefit from further iteration and polish.
 
 1. **Leap Trajectory Validation**  
    The current leap target location system reliably ensures that the final position is valid (i.e., the character will not end up stuck or in an unreachable state, based on current testing). However, the validation is only performed at the destination point.  
